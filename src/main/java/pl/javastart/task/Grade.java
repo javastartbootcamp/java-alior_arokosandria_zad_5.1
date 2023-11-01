@@ -11,6 +11,15 @@ public class Grade {
         this.grade = grade;
     }
 
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "studentIndex=" + studentIndex +
+                ", groupCode='" + groupCode + '\'' +
+                ", grade=" + grade +
+                '}';
+    }
+
     public int getStudentIndex() {
         return studentIndex;
     }

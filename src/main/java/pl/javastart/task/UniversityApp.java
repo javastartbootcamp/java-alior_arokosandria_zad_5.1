@@ -28,10 +28,14 @@ public class UniversityApp {
 
             }
         }
+        Lecturer lecturer=null;
         for (Lecturer lecturer1 : tabLecturer) {
-            if (!(lecturer1.getId() == lecturerId)) {
-                System.out.println("Prowadzący o id " + lecturerId + " nie istnieje");
-                return;
+            if ((lecturer1.getId() == lecturerId)) {
+                lecturer=lecturer1;
+                break;
+            }
+            if(lecturer==null){
+                System.out.println("Prowadzący o id "+lecturerId+" nie istnieje");
             }
         }
         Group groupNext = new Group(code, name, lecturerId);
@@ -99,7 +103,7 @@ public class UniversityApp {
             return;
         }
 
-        System.out.println("Kod : " + groupCode);
+        System.out.println("Kod: " + groupCode);
         System.out.println("Nazwa: " + group1.getName());
         for (Lecturer lecturer : tabLecturer) {
             if (group1.getLecturerId() == lecturer.getId())
@@ -147,16 +151,12 @@ public class UniversityApp {
             System.out.println("Student o indeksie " + studentIndex + " nie jest zapisany do grupy " + groupCode);
             return;
         }
-        for (Grade grade1 : tabGrade) {
-            if (grade1.getStudentIndex() == studentIndex) {
-                System.out.println("Student o indeksie " + studentIndex + " ma już wystawioną ocenę dla grupy " + groupCode);
-                return;
-            }
-        }
-        Grade grade1 = new Grade(studentIndex, groupCode, grade);
-        tabGrade.add(grade1);
-    }
 
+
+            Grade grade2 = new Grade(studentIndex, groupCode, grade);
+            tabGrade.add(grade2);
+
+    }
     /**
      * Wyświetla wszystkie oceny studenta.
      * Przykładowy wydruk:
@@ -176,6 +176,7 @@ public class UniversityApp {
         }
 
     }
+
 
     /**
      * Wyświetla oceny studentów dla wskazanej grupy.
