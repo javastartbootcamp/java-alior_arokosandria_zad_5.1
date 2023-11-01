@@ -92,7 +92,7 @@ public class UniversityApp {
 
             }
         } else {
-            System.out.println("Grupa " + groupCode + " nie znaleziono");
+            System.out.println("Grupa " + groupCode + " nie znaleziona");
         }
     }
 
@@ -157,7 +157,8 @@ public class UniversityApp {
             for (Students tabStudent : tabStudents) {
                 for (Grade grade : tabGrade) {
                     if (grade.getStudentIndex() == tabStudent.getIndex()) {
-                        System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName() + ":" + " " + grade.getGrade());
+                        System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " +
+                                tabStudent.getLastName() + ":" + " " + grade.getGrade());
                     }
                 }
             }
