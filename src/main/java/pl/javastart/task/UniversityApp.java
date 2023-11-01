@@ -1,4 +1,5 @@
 package pl.javastart.task;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +29,14 @@ public class UniversityApp {
 
             }
         }
-        Lecturer lecturer=null;
+        Lecturer lecturer = null;
         for (Lecturer lecturer1 : tabLecturer) {
             if ((lecturer1.getId() == lecturerId)) {
-                lecturer=lecturer1;
+                lecturer = lecturer1;
                 break;
             }
-            if(lecturer==null){
-                System.out.println("Prowadzący o id "+lecturerId+" nie istnieje");
+            if (lecturer == null) {
+                System.out.println("Prowadzący o id " + lecturerId + " nie istnieje");
             }
         }
         Group groupNext = new Group(code, name, lecturerId);
@@ -57,7 +58,7 @@ public class UniversityApp {
         Group group = null;
         for (Students tabStudent : tabStudents) {
             if (tabStudent.getIndex() == index) {
-                System.out.println("Student o indeksie "+index+" jest już w grupie "+groupCode);
+                System.out.println("Student o indeksie " + index + " jest już w grupie " + groupCode);
                 return;
             }
         }
@@ -151,12 +152,15 @@ public class UniversityApp {
             System.out.println("Student o indeksie " + studentIndex + " nie jest zapisany do grupy " + groupCode);
             return;
         }
-
-
-            Grade grade2 = new Grade(studentIndex, groupCode, grade);
-            tabGrade.add(grade2);
-
+        for (Grade grade1 : tabGrade) {
+            if (grade1.getStudentIndex() == studentIndex && grade1.getGroupCode().equals(groupCode)) {
+                System.out.println("Student o indeksie " + studentIndex + " ma już wystawioną ocenę dla grupy " + groupCode);
+            }
+        }
+        Grade grade2 = new Grade(studentIndex, groupCode, grade);
+        tabGrade.add(grade2);
     }
+
     /**
      * Wyświetla wszystkie oceny studenta.
      * Przykładowy wydruk:
@@ -170,7 +174,7 @@ public class UniversityApp {
             if (grade.getStudentIndex() == index) {
                 for (Group group : tabGroup) {
                     if (group.getGroupCode().equals(grade.getGroupCode()))
-                        System.out.println(group.getName()+":"+" " + grade.getGrade());
+                        System.out.println(group.getName() + ":" + " " + grade.getGrade());
                 }
             }
         }
@@ -202,11 +206,11 @@ public class UniversityApp {
         for (Students tabStudent : tabStudents) {
             for (Grade grade : tabGrade) {
                 if (grade.getStudentIndex() == tabStudent.getIndex()) {
-                    System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName()+ " " + tabStudent.getLastName()+":" + " " + grade.getGrade());
+                    System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName() + ":" + " " + grade.getGrade());
                 }
             }
-        }}
-
+        }
+    }
 
 
     /**
