@@ -174,11 +174,11 @@ public class UniversityApp {
         for (Grade grade : tabGrade) {
             if (grade.getStudentIndex() == index) {
                 for (Group group : tabGroup) {
-                    if (group.getGroupCode().equals(grade.getGroupCode())){
+                    if (group.getGroupCode().equals(grade.getGroupCode())) {
                         System.out.println(group.getName() + ":" + " " + grade.getGrade());
+                    }
                 }
             }
-        }
         }
     }
 

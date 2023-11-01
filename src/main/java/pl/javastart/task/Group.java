@@ -1,10 +1,10 @@
 package pl.javastart.task;
 
-public class Group  {
+public class Group {
 
     private String groupCode;
-     private String name;
-     private int lecturerId;
+    private String name;
+    private int lecturerId;
 
     public Group(String groupCode, String name, int lecturerId) {
         this.groupCode = groupCode;

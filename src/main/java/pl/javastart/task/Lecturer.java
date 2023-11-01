@@ -39,6 +39,6 @@ public class Lecturer {
         this.lastName = lastName;
     }
 
-    }
+}
 
 
