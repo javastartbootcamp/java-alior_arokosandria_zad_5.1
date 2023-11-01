@@ -107,8 +107,9 @@ public class UniversityApp {
         System.out.println("Kod: " + groupCode);
         System.out.println("Nazwa: " + group1.getName());
         for (Lecturer lecturer : tabLecturer) {
-            if (group1.getLecturerId() == lecturer.getId())
+            if (group1.getLecturerId() == lecturer.getId()) {
                 System.out.println("Prowadzący: " + lecturer.getDegree() + " " + lecturer.getFistName() + " " + lecturer.getLastName());
+            }
         }
         System.out.println("Uczestnicy");
         for (Students tabStudent : tabStudents) {
@@ -173,12 +174,12 @@ public class UniversityApp {
         for (Grade grade : tabGrade) {
             if (grade.getStudentIndex() == index) {
                 for (Group group : tabGroup) {
-                    if (group.getGroupCode().equals(grade.getGroupCode()))
+                    if (group.getGroupCode().equals(grade.getGroupCode())){
                         System.out.println(group.getName() + ":" + " " + grade.getGrade());
                 }
             }
         }
-
+        }
     }
 
 
