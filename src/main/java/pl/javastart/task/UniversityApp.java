@@ -53,7 +53,7 @@ public class UniversityApp {
         Group group = null;
         for (Students tabStudent : tabStudents) {
             if (tabStudent.getIndex() == index) {
-                System.out.println("numer indeksu musi być unikalny");
+                System.out.println("Student o indeksie "+index+" jest już w grupie "+groupCode);
                 return;
             }
         }
@@ -95,11 +95,11 @@ public class UniversityApp {
             }
         }
         if (group1 == null) {
-            System.out.println("Grupa " + groupCode + " nie istnieje");
+            System.out.println("Grupa " + groupCode + " nie znaleziona");
             return;
         }
 
-        System.out.println("Kod grupy: " + groupCode);
+        System.out.println("Kod : " + groupCode);
         System.out.println("Nazwa: " + group1.getName());
         for (Lecturer lecturer : tabLecturer) {
             if (group1.getLecturerId() == lecturer.getId())
@@ -170,7 +170,7 @@ public class UniversityApp {
             if (grade.getStudentIndex() == index) {
                 for (Group group : tabGroup) {
                     if (group.getGroupCode().equals(grade.getGroupCode()))
-                        System.out.println(group.getName() + " " + grade.getGrade());
+                        System.out.println(group.getName()+":"+" " + grade.getGrade());
                 }
             }
         }
@@ -187,16 +187,25 @@ public class UniversityApp {
      * @param groupCode - kod grupy, dla której wyświetlić oceny
      */
     public void printGradesForGroup(String groupCode) {
+        Group group1 = null;
+        for (Group group : tabGroup) {
+            if (group.getGroupCode().equals(groupCode)) {
+                group1 = group;
+                break;
+            }
+        }
+        if (group1 == null) {
+            System.out.println("Grupa " + groupCode + " nie istnieje");
+            return;
+        }
         for (Students tabStudent : tabStudents) {
             for (Grade grade : tabGrade) {
                 if (grade.getStudentIndex() == tabStudent.getIndex()) {
-                    System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName() + " " + grade.getGrade());
+                    System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName()+ " " + tabStudent.getLastName()+":" + " " + grade.getGrade());
                 }
             }
+        }}
 
-
-        }
-    }
 
 
     /**
