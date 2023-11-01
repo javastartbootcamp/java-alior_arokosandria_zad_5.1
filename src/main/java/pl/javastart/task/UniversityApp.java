@@ -18,7 +18,6 @@ public class UniversityApp {
         }
         Lecturer lecturerNext = new Lecturer(id, degree, firstName, lastName);
         tabLecturer.add(lecturerNext);
-
     }
 
     public void createGroup(String code, String name, int lecturerId) {
@@ -26,19 +25,9 @@ public class UniversityApp {
             if (group.getGroupCode().equals(code)) {
                 System.out.println("Grupa " + code + " już istnieje");
                 return;
-
             }
         }
-        Lecturer lecturer = null;
-        for (Lecturer lecturer1 : tabLecturer) {
-            if ((lecturer1.getId() == lecturerId)) {
-                lecturer = lecturer1;
-                break;
-            }
-            if (lecturer == null) {
-                System.out.println("Prowadzący o id " + lecturerId + " nie istnieje");
-            }
-        }
+        checkLecture(lecturerId);
         Group groupNext = new Group(code, name, lecturerId);
         tabGroup.add(groupNext);
     }
@@ -55,22 +44,15 @@ public class UniversityApp {
      * @param lastName  - nazwisko studenta
      */
     public void addStudentToGroup(int index, String groupCode, String firstName, String lastName) {
-        Group group = null;
-        for (Students tabStudent : tabStudents) {
-            if (tabStudent.getIndex() == index) {
-                System.out.println("Student o indeksie " + index + " jest już w grupie " + groupCode);
-                return;
+        if (checkGroup(groupCode)) {
+            for (Students tabStudent : tabStudents) {
+                if (tabStudent.getIndex() == index) {
+                    System.out.println("Student o indeksie " + index + " jest już w grupie " + groupCode);
+                    return;
+                }
             }
-        }
-        for (Group group1 : tabGroup) {
-            if (group1.getGroupCode().equals(groupCode)) {
-                group = group1;
-                break;
-            }
-        }
-        if (group == null) {
+        } else {
             System.out.println("Grupa " + groupCode + " nie istnieje");
-            return;
         }
         Students students = new Students(index, groupCode, firstName, lastName);
         tabStudents.add(students);
@@ -92,30 +74,25 @@ public class UniversityApp {
      * @param groupCode - kod grupy, dla której wyświetlić informacje
      */
     public void printGroupInfo(String groupCode) {
-        Group group1 = null;
-        for (Group group : tabGroup) {
-            if (group.getGroupCode().equals(groupCode)) {
-                group1 = group;
-                break;
-            }
-        }
-        if (group1 == null) {
-            System.out.println("Grupa " + groupCode + " nie znaleziona");
-            return;
-        }
+        if (checkGroup(groupCode)) {
+            for (Group group : tabGroup) {
+                System.out.println("Kod: " + groupCode);
+                System.out.println("Nazwa: " + group.getName());
+                for (Lecturer lecturer : tabLecturer) {
+                    if (group.getLecturerId() == lecturer.getId()) {
+                        System.out.println("Prowadzący: " + lecturer.getDegree() + " " + lecturer.getFistName() + " " + lecturer.getLastName());
+                    }
+                }
+                System.out.println("Uczestnicy");
+                for (Students tabStudent : tabStudents) {
+                    if (tabStudent.getGroupCode().equals(groupCode)) {
+                        System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName());
+                    }
+                }
 
-        System.out.println("Kod: " + groupCode);
-        System.out.println("Nazwa: " + group1.getName());
-        for (Lecturer lecturer : tabLecturer) {
-            if (group1.getLecturerId() == lecturer.getId()) {
-                System.out.println("Prowadzący: " + lecturer.getDegree() + " " + lecturer.getFistName() + " " + lecturer.getLastName());
             }
-        }
-        System.out.println("Uczestnicy");
-        for (Students tabStudent : tabStudents) {
-            if (tabStudent.getGroupCode().equals(groupCode)) {
-                System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName());
-            }
+        } else {
+            System.out.println("Grupa " + groupCode + " nie znaleziono");
         }
     }
 
@@ -131,35 +108,18 @@ public class UniversityApp {
      * "Student o indeksie 179128 ma już wystawioną ocenę dla grupy pp-2022"
      */
     public void addGrade(int studentIndex, String groupCode, double grade) {
-        Group group1 = null;
-        for (Group group : tabGroup) {
-            if (group.getGroupCode().equals(groupCode)) {
-                group1 = group;
-                break;
+        checkStudent(studentIndex, groupCode);
+        if (checkGroup(groupCode)) {
+            for (Grade grade1 : tabGrade) {
+                if (grade1.getStudentIndex() == studentIndex && grade1.getGroupCode().equals(groupCode)) {
+                    System.out.println("Student o indeksie " + studentIndex + " ma już wystawioną ocenę dla grupy " + groupCode);
+                }
             }
-        }
-        if (group1 == null) {
+            Grade grade2 = new Grade(studentIndex, groupCode, grade);
+            tabGrade.add(grade2);
+        } else {
             System.out.println("Grupa " + groupCode + " nie istnieje");
-            return;
         }
-        Students students = null;
-        for (Students tabStudent : tabStudents) {
-            if (tabStudent.getIndex() == studentIndex) {
-                students = tabStudent;
-                break;
-            }
-        }
-        if (students == null) {
-            System.out.println("Student o indeksie " + studentIndex + " nie jest zapisany do grupy " + groupCode);
-            return;
-        }
-        for (Grade grade1 : tabGrade) {
-            if (grade1.getStudentIndex() == studentIndex && grade1.getGroupCode().equals(groupCode)) {
-                System.out.println("Student o indeksie " + studentIndex + " ma już wystawioną ocenę dla grupy " + groupCode);
-            }
-        }
-        Grade grade2 = new Grade(studentIndex, groupCode, grade);
-        tabGrade.add(grade2);
     }
 
     /**
@@ -193,23 +153,16 @@ public class UniversityApp {
      * @param groupCode - kod grupy, dla której wyświetlić oceny
      */
     public void printGradesForGroup(String groupCode) {
-        Group group1 = null;
-        for (Group group : tabGroup) {
-            if (group.getGroupCode().equals(groupCode)) {
-                group1 = group;
-                break;
-            }
-        }
-        if (group1 == null) {
-            System.out.println("Grupa " + groupCode + " nie istnieje");
-            return;
-        }
-        for (Students tabStudent : tabStudents) {
-            for (Grade grade : tabGrade) {
-                if (grade.getStudentIndex() == tabStudent.getIndex()) {
-                    System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName() + ":" + " " + grade.getGrade());
+        if (checkGroup(groupCode)) {
+            for (Students tabStudent : tabStudents) {
+                for (Grade grade : tabGrade) {
+                    if (grade.getStudentIndex() == tabStudent.getIndex()) {
+                        System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName() + ":" + " " + grade.getGrade());
+                    }
                 }
             }
+        } else {
+            System.out.println("Grupa " + groupCode + " nie istnieje");
         }
     }
 
@@ -224,10 +177,53 @@ public class UniversityApp {
      */
     public void printAllStudents() {
         System.out.println("Wszyscy studenci:");
-
         for (Students tabStudent : tabStudents) {
             System.out.println(tabStudent.getIndex() + " " + tabStudent.getFirstName() + " " + tabStudent.getLastName());
         }
+    }
+
+    public boolean checkGroup(String group) {
+        Group group1 = null;
+        for (Group group2 : tabGroup) {
+            if (group2.getGroupCode().equals(group)) {
+                group1 = group2;
+                return true;
+            }
+        }
+        if (group1 == null) {
+            return false;
+        }
+        return false;
+    }
+
+    public boolean checkStudent(int studentIndex, String groupCode) {
+        Students students = null;
+        for (Students tabStudent : tabStudents) {
+            if (tabStudent.getIndex() == studentIndex) {
+                students = tabStudent;
+                return true;
+            }
+        }
+        if (students == null) {
+            System.out.println("Student o indeksie " + studentIndex + " nie jest zapisany do grupy " + groupCode);
+            return false;
+        }
+        return false;
+    }
+
+    public boolean checkLecture(int lecturerId) {
+        Lecturer lecturer = null;
+        for (Lecturer lecturer1 : tabLecturer) {
+            if ((lecturer1.getId() == lecturerId)) {
+                lecturer = lecturer1;
+                return true;
+            }
+            if (lecturer == null) {
+                System.out.println("Prowadzący o id " + lecturerId + " nie istnieje");
+                return false;
+            }
+        }
+        return false;
     }
 }
 

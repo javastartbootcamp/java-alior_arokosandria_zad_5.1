@@ -23,6 +23,7 @@ public class Group {
     public int getLecturerId() {
         return lecturerId;
     }
+
 }
 
 
